@@ -171,6 +171,8 @@ _**Note:** Hexadecimal, also known as hex or base 16, uses 16 symbols to repres
 
 ## Observations and Results: 
 
+Compared to Wireshark, TCPDump is a utility that is best suited for quick captures by utilzing the command-line interface. By quickly identifying specific marker in the network traffic, an analyst can make a quick assessment of the traffic flow. However, Wireshark may be best for further analysis. Using TCPDump in this regard and creating a packet capture to be assessed later may be the best remediation practice.
+
 
 ## Lessons Learned: 
 In this lab, we performed basic tcpdump commands to:
