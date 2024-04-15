@@ -26,6 +26,10 @@ Sometimes, having addresses and ports resolved to names can be annoying if you a
 **Saving PCAP Files**
 Finally, you can save your capture to a PCAP file with **-w** _filename_.
 
+<<<<<<< HEAD
 ![[Github/tcpdump/images/Pasted image 20240413133224.png]]
+=======
+![test](Pasted image 20240413133224.png)
+>>>>>>> 67f797a7042f2bbc147dd6f00b1ea934d25c342c
 
 
