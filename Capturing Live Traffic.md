@@ -7,7 +7,7 @@ Most of the capture features in Wireshark are also available in TCPDump. You can
 To *start a capture with default settings*, simply type the command **tcpdump**.  
 To view the list of available interfaces that TCPDump can capture traffic on, use **tcpdump -D**. To start capturing on a specific interface, use **tcpdump -i** _interface_, e.g. **tcpdump -i en0**.
 
-![[Pasted image 20240413130730.png]]
+![[Pasted%20image%2020240413130730.png]]
 
 **Apply Traffic Filtering**
 You can also apply filters by using command-line options:
@@ -29,7 +29,7 @@ Finally, you can save your capture to a PCAP file with **-w** _filename_.
 
 ![[tcpdump/images/Pasted image 20240413133224.png]]
 
-![test](Pasted image 20240413133224.png)
+![test](Pasted%20image%2020240413133224.png)
 
 
 
