@@ -1,9 +1,9 @@
 
 You can achieve Wireshark-grade packet filtering with TCPDump when you read and analyse PCAP files. *To read a saved capture file with default settings, use* `**tcpdump -r**` _filename_. For a *more verbose* output, the `**-v**`, `**-vv**` or `**-vvv**` options can be used, with each one increasing in verbosity. 
 
-![[Pasted image 20240413130138.png]]
+![](images/Pasted%20image%2020240413130138.png)
 
-![[Pasted image 20240413015716.png]]
+![](images/Pasted%20image%2020240413015716.png)
   
 Controlling verbosity allows users to tailor the output of TCPDump to their specific needs. For quick network overviews, low verbosity may suffice, while high verbosity may be necessary for detailed troubleshooting and analysis. However, it's essential to strike a balance between verbosity and readability, as excessively verbose output can be challenging to interpret, especially in complex network environments.
 
