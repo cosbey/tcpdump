@@ -35,21 +35,28 @@ By examining these TCP flags in TCPDump output, network administrators and analy
 
 You can also apply filters specifying particular fields and values in the packet header. Some of the most useful ones include:
 
- – **Specifying TCP flags**:  
+ **Specifying TCP flags**:  
 To match all packets with a single specified TCP flag, add the **tcp[tcpflags] == tcp-ack**/**tcp-syn**/**tcp-fin**/**tcp-push**/**tcp-urg**/**tcp-rst** option. For example, **tcp[tcpflags] == tcp-push** displays packets with only the PSH flag set.
 
 In order to match packets with multiple TCP flags, you must first calculate the decimal value of the flag section of the TCP header. 
 
 The 8 flags are ordered as shown below.
 
-![](https://d2y9h8w1ydnujs.cloudfront.net/uploads/content/images/44865c4cda2679047739c6b38873318a7725280d53ec383568cb1af73cd76bb332585273ec900832494e079c6614.png)
+CWR - 128
+	ECE - 64
+		URG - 32
+			ACK - 16
+				PSH -8
+					RST - 4
+						SYN -2
+							FIN -1
+							
+
 
 If you want to match packets with multiple flag bits on, convert the flags into a decimal value and use this number in `**tcp[tcpflags] == x**`. For example, for packets with the PSH and ACK flags set, the decimal value becomes 00011000 = 24, and the expression becomes `**tcp[tcpflags] == 24**`, as shown below.
 
-  
-![](https://d2y9h8w1ydnujs.cloudfront.net/uploads/content/images/76579d1b8bc82200e86097e500d8c42b4e453a0a27600c76c40de1ec9aa643bd07e27b959344ad122d9e1fe71c81.png)
 
-– **Specifying packet header bytes**:  
+**Specifying packet header bytes**:  
 You can specify any byte in the packet header by using its index. For example, let’s suppose that we want to display only ICMP Echo Request packets. We know that echo requests have an ICMP type of 8. Since the type field in an ICMP header is the first byte, byte 0 (index is counted from 0) of the ICMP header should have a value of 8 (or 00001000 in binary). From this, we can construct our expression as `**icmp[0] == 8**`. The same applies for other protocol headers and values, such as `**ip[8]**` for the TTL.
 
 Note that you can sometimes replace the byte index with the name of the field that you are specifying. For example, `**icmp[0]**` could be replaced with `**icmp[icmptype]**`. 
@@ -65,25 +72,19 @@ You should explore more options as you get more and more familiar with TCPDump.�
 
 As TCPDump is a command-line, text-based tool unlike Wireshark, it also opens up the possibility to pipe the output to other shell commands and scripts for additional filtering, statistics calculation etc.. How useful this ability is largely depends on your familiarity with certain shell commands. Below are some commands which can manipulate TCPDump output for additional filtering.
 
-– **cut -d “**_delimiter_**” -f** _no._: **cut** is a useful tool that can extract certain fields within each line with the use of delimiters. Delimiters are single characters that separate each field, with each field being able to be specified with a number.
+**cut -d “**_delimiter_**” -f** _no._: **cut** is a useful tool that can extract certain fields within each line with the use of delimiters. Delimiters are single characters that separate each field, with each field being able to be specified with a number.
 
   
-![](https://d2y9h8w1ydnujs.cloudfront.net/uploads/content/images/b086e121714f475a605eadc26642ab6c9160d40f9b7fac9bf663dd725ec3abe677b0b850ae43c4895f7d589c1e7c.png)
-
 For example, in the above image, the initial TCPDump output has been printed, however, we only want to display the first 3 sections of each line (time, Layer 3 protocol, source address and port). We notice that a ‘greater than’ symbol separates the 3 sections we are looking for, and the rest of the packet header fields – therefore, we can use the ‘greater than’ symbol as our delimiter, and specify the 1st field to be displayed with `**cut -d “>” -f 1**`. 
 
 You can specify more than one field to be displayed, such as `**cut -d “:” -f 1,2,3**` to print up to the destination address and port.
 
-– **awk ‘{print $**_no._**}’**: **awk** is a very powerful tool when it comes to text manipulation and one use case is to print a specific field within each line. Each field is separated by spaces.
+**awk ‘{print $**_no._**}’**: **awk** is a very powerful tool when it comes to text manipulation and one use case is to print a specific field within each line. Each field is separated by spaces.
 
-  
-![](https://d2y9h8w1ydnujs.cloudfront.net/uploads/content/images/ced919b9da3093354cce6b3ba8b1f0327d77b41f205453dafe613b14d72b436e74b583eb8d8ed841c22b072ecccf.png)
 
 In the above image, only the 7th field – the TCP flags – are printed (the comma and the end has been removed). Since TCPDump uses spaces frequently to separate header fields, `**awk**` can be very handy in extracting a single field on all Packets. You can also use `**$NF**` for the last field and `**$(NF-**_**x**_**)**` for the _(x+1)_th field from the end, such as `**awk ‘{print $(NF-2)}’**` for the third last field.
 
-– **grep** _keyword_: Even if you are a Unix CLI beginner, you will most likely know this Command. `**grep**` is the go-to command for finding lines within files that match a given keyword. For example, in order to find all FTP packets that relate to a .zip file, you can use `**grep zip**`, as shown below.
-
-![](https://d2y9h8w1ydnujs.cloudfront.net/uploads/content/images/64a88e8a20305bf85f48a6dd43a2970f2d217e622f031b09f8dcaad5dffb923af07e0246353c42d1fd4c5ca072ed.png)
+**grep** _keyword_: Even if you are a Unix CLI beginner, you will most likely know this Command. `**grep**` is the go-to command for finding lines within files that match a given keyword. For example, in order to find all FTP packets that relate to a .zip file, you can use `**grep zip**`, as shown below.
 
 `**grep**` also has numerous other options available, such as `**-v**` to match lines that _don’t_ contain the keyword and `**-i**` to perform a case-insensitive search. On a more advanced level, regex can be used to fine-tune the search – but this is out of the scope of this course.
 
